@@ -1,35 +1,52 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { useState } from 'react';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+function Square({ value, onSquareClick }) {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <button className="square" onClick={onSquareClick}>
+      {value}
+    </button>
+  );
 }
 
-export default App
+function Board() {
+  const [squares, setSquares] = useState(Array(9).fill(null));
+  const [xIsNext, setXIsNext] = useState(true);
+
+  function handleClick(i) {
+    // Don't allow clicking if square is already filled
+    if (squares[i]) return;
+    
+    // Create a copy of squares array
+    const nextSquares = squares.slice();
+    
+    // Set X or O based on whose turn it is
+    nextSquares[i] = xIsNext ? 'X' : 'O';
+    
+    // Update state
+    setSquares(nextSquares);
+    setXIsNext(!xIsNext);
+  }
+
+  return (
+    <div className="board">
+      {squares.map((value, i) => (
+        <Square 
+          key={i}
+          value={value} 
+          onSquareClick={() => handleClick(i)} 
+        />
+      ))}
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <div>
+      <Board />
+    </div>
+  );
+}
+
+export default App;
