@@ -12,20 +12,33 @@ body {
   background: #f0f0f0;
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.status {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
+
 .board {
   display: grid;
-  grid-template-columns: repeat(3, 100px);
-  grid-template-rows: repeat(3, 100px);
-  gap: 5px;
+  grid-template-columns: repeat(3, 80px);
+  grid-template-rows: repeat(3, 80px);
+  gap: 2px;
   background: #333;
-  padding: 5px;
-  border-radius: 10px;
+  padding: 2px;
+  border-radius: 8px;
 }
 
 .square {
   background: white;
   border: none;
-  font-size: 48px;
+  font-size: 40px;
   font-weight: bold;
   cursor: pointer;
   display: flex;
@@ -34,5 +47,152 @@ body {
 }
 
 .square:hover {
-  background: #f9f9f9;
+  background: #f0f0f0;
+}
+
+.reset {
+  margin-top: 20px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.reset:hover {
+  background: #0056b3;
+}
+
+/* Player Setup */
+.player-setup {
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.player-setup h2 {
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #555;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.player-setup button {
+  margin-top: 20px;
+  padding: 12px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.player-setup button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.player-setup button:not(:disabled):hover {
+  background: #0056b3;
+}
+
+/* Scoreboard */
+.scoreboard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.score {
+  text-align: center;
+}
+
+.player-name {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.player-score {
+  font-size: 32px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.vs {
+  font-size: 20px;
+  font-weight: bold;
+  color: #999;
+}
+
+/* Tournament End */
+.tournament-end {
+  background: white;
+  padding: 60px 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.tournament-end h1 {
+  color: #28a745;
+  margin-bottom: 30px;
+}
+
+.final-score {
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+.final-score div {
+  margin: 10px 0;
+}
+
+.tournament-end button {
+  margin: 10px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.tournament-end button:hover {
+  background: #0056b3;
 }
