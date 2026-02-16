@@ -3,19 +3,18 @@
 ## What this project is
 A React + Vite tic-tac-toe game with a "Best of 5" tournament mode. Two named players compete across rounds; first to 3 wins takes the tournament.
 
-## Current build status
+## Build status: ✅ COMPLETE
 
-**Done:**
-- `Square` — reusable button component, receives `value` and `onSquareClick` via props
-- `Board` — manages board state (`squares` array), turn switching, win/draw detection, "Next Round" reset
-- `PlayerSetup` — name entry screen shown before the game starts
-- `App` — tournament orchestration: tracks scores, detects tournament winner (first to 3), handles "Play Again" and "Change Players"
-- `calculateWinner(squares)` — standalone helper that checks all 8 win patterns
+**Live at:** https://ignagu.github.io/tic-tac-toe/
 
-**Remaining (from README plan):**
-- Styling and visual polish (App.css exists but not yet reviewed)
-- Edge case testing
-- Deploy to GitHub Pages (`npm run deploy` is already configured)
+**All done:**
+- `Square` — reusable button, receives `value`, `onSquareClick`, `isWinner` via props; applies `square-x`/`square-o`/`square-winner` classes
+- `Board` — manages board state, turn switching, win/draw detection, passes `isWinner` to each Square
+- `PlayerSetup` — name entry screen
+- `App` — tournament orchestration: scores, winner detection (first to 3), Play Again / Change Players
+- `calculateWinner(squares)` — returns `{ winner, line }` so winning squares can be highlighted
+- `App.css` — full bold/playful redesign: purple gradient bg, blue X, hot-pink O, gold winning squares, fluid clamp() sizing, mobile-first
+- `index.css` — stripped Vite dark-theme defaults; App.css owns all visual design
 
 ## Component hierarchy
 ```

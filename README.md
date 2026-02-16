@@ -2,7 +2,7 @@
 
 An interactive Tic-Tac-Toe game with named players and tournament mode, built with React to learn component-based UI development.
 
-**Status:** 🚧 In Progress — logic complete, styling and deployment remaining
+**Status:** ✅ Complete — deployed at https://ignagu.github.io/tic-tac-toe/
 
 ---
 
@@ -145,10 +145,10 @@ Diagonals: [0,4,8], [2,4,6]
    - Status message: current player's turn / round winner / draw
    - Tournament winner screen with Play Again / Change Players options
 
-7. **Polish & Deploy** ← currently here
-   - Styling and visual improvements
-   - Edge case testing
-   - Deploy to GitHub Pages (`npm run deploy`)
+7. ✅ **Polish & Deploy**
+   - Bold/playful UI: purple gradient, blue X, hot-pink O, gold winning squares
+   - Mobile-first responsive design with clamp() sizing
+   - Deployed to GitHub Pages (`npm run deploy`)
 
 ---
 
