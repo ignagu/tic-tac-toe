@@ -11,15 +11,21 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return { winner: squares[a], line: lines[i] };
     }
   }
   return null;
 }
 
-function Square({ value, onSquareClick }) {
+function Square({ value, onSquareClick, isWinner }) {
+  const cls = [
+    'square',
+    value === 'X' ? 'square-x' : value === 'O' ? 'square-o' : '',
+    isWinner ? 'square-winner' : ''
+  ].filter(Boolean).join(' ');
+
   return (
-    <button className="square" onClick={onSquareClick}>
+    <button className={cls} onClick={onSquareClick}>
       {value}
     </button>
   );
@@ -37,20 +43,21 @@ function PlayerSetup({ onStart }) {
 
   return (
     <div className="player-setup">
-      <h2>Tic-Tac-Toe - Best of 5</h2>
+      <h2>Tic-Tac-Toe</h2>
+      <p className="setup-subtitle">Best of 5 — first to 3 wins!</p>
       <div className="input-group">
-        <label>Player X Name:</label>
-        <input 
-          type="text" 
+        <label>Player X</label>
+        <input
+          type="text"
           value={playerX}
           onChange={(e) => setPlayerX(e.target.value)}
           placeholder="Enter name"
         />
       </div>
       <div className="input-group">
-        <label>Player O Name:</label>
-        <input 
-          type="text" 
+        <label>Player O</label>
+        <input
+          type="text"
           value={playerO}
           onChange={(e) => setPlayerO(e.target.value)}
           placeholder="Enter name"
@@ -68,7 +75,9 @@ function Board({ playerX, playerO, scoreX, scoreO, onGameEnd }) {
   const [xIsNext, setXIsNext] = useState(true);
   const [roundEnded, setRoundEnded] = useState(false);
 
-  const winner = calculateWinner(squares);
+  const result = calculateWinner(squares);
+  const winner = result?.winner ?? null;
+  const winningLine = result?.line ?? [];
   const isDraw = !winner && squares.every(square => square !== null);
 
   useEffect(() => {
@@ -80,7 +89,7 @@ function Board({ playerX, playerO, scoreX, scoreO, onGameEnd }) {
 
   function handleClick(i) {
     if (squares[i] || winner || roundEnded) return;
-    
+
     const nextSquares = squares.slice();
     nextSquares[i] = xIsNext ? 'X' : 'O';
     setSquares(nextSquares);
@@ -99,20 +108,22 @@ function Board({ playerX, playerO, scoreX, scoreO, onGameEnd }) {
   return (
     <>
       <div className="scoreboard">
-        <div className="score">
-          <div className="player-name">{playerX} (X)</div>
+        <div className={`score ${xIsNext && !winner && !isDraw ? 'score-active-x' : ''} ${winner === 'X' ? 'score-winner' : ''}`}>
+          <div className="player-name player-name-x">{playerX}</div>
+          <div className="player-letter">X</div>
           <div className="player-score">{scoreX}</div>
         </div>
         <div className="vs">VS</div>
-        <div className="score">
-          <div className="player-name">{playerO} (O)</div>
+        <div className={`score ${!xIsNext && !winner && !isDraw ? 'score-active-o' : ''} ${winner === 'O' ? 'score-winner' : ''}`}>
+          <div className="player-name player-name-o">{playerO}</div>
+          <div className="player-letter">O</div>
           <div className="player-score">{scoreO}</div>
         </div>
       </div>
 
       <div className="status">
-        {winner 
-          ? `${winnerName} wins this round!` 
+        {winner
+          ? `🎉 ${winnerName} wins this round!`
           : isDraw
           ? "It's a draw!"
           : `${currentPlayer}'s turn`}
@@ -120,17 +131,18 @@ function Board({ playerX, playerO, scoreX, scoreO, onGameEnd }) {
 
       <div className="board">
         {squares.map((value, i) => (
-          <Square 
+          <Square
             key={i}
-            value={value} 
-            onSquareClick={() => handleClick(i)} 
+            value={value}
+            onSquareClick={() => handleClick(i)}
+            isWinner={winningLine.includes(i)}
           />
         ))}
       </div>
 
       {(winner || isDraw) && (
-        <button className="reset" onClick={handleNextRound}>
-          Next Round
+        <button className="btn-next" onClick={handleNextRound}>
+          Next Round →
         </button>
       )}
     </>
@@ -176,27 +188,30 @@ function App() {
   if (tournamentWinner) {
     return (
       <div className="tournament-end">
-        <h1>🎉 {tournamentWinner} Wins the Tournament! 🎉</h1>
+        <div className="trophy">🏆</div>
+        <h1>{tournamentWinner} wins the tournament!</h1>
         <div className="final-score">
-          <div>{playerX}: {scoreX}</div>
-          <div>{playerO}: {scoreO}</div>
+          <div className="final-score-row">
+            <span className="final-name-x">{playerX}</span>
+            <span className="final-num">{scoreX} – {scoreO}</span>
+            <span className="final-name-o">{playerO}</span>
+          </div>
         </div>
-        <button onClick={() => {
-          setScoreX(0);
-          setScoreO(0);
-        }}>
-          Play Again (Same Players)
-        </button>
-        <button onClick={handleResetTournament}>
-          Change Players
-        </button>
+        <div className="tournament-buttons">
+          <button onClick={() => { setScoreX(0); setScoreO(0); }}>
+            Play Again
+          </button>
+          <button className="btn-secondary" onClick={handleResetTournament}>
+            Change Players
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div>
-      <Board 
+    <div className="game">
+      <Board
         playerX={playerX}
         playerO={playerO}
         scoreX={scoreX}
